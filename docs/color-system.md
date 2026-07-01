@@ -1,39 +1,38 @@
 # Color System
 
-The MotorIQ color system is engineered for a dark-mode-first industrial environment, reducing eye strain in dim control rooms while providing high-contrast alerts.
+The MotorIQ color system is engineered for a bright, high-contrast industrial environment. It adopts a vintage industrial palette that emphasizes clarity, warmth, and unmistakable status indication.
 
 ## Design Philosophy: Semantic Color
 
 Colors in MotorIQ are not just decorative; they are semantic. They communicate state instantly.
 
-## The Palette (Dark Mode Base)
+## The Palette
 
 ### Backgrounds (Surfaces)
-- **App Canvas:** `#09090B` (Deep Space Black) - The lowest layer.
-- **Card/Surface:** `#18181B` (Zinc 900) - Elevated containers.
-- **Elevated/Modal:** `#27272A` (Zinc 800) - Flyouts, dropdowns.
+- **App Canvas (Background):** `#F6F0E5` - The lowest layer, a warm, off-white industrial canvas.
+- **Card/Surface:** `#FFFDFC` - Elevated containers, slightly brighter for separation.
+- **Navigation/Border:** `#EAE1D3` - Used for sidebars, topbars, and subtle borders.
 
 ### Typography
-- **Primary Text:** `#FAFAFA` (Zinc 50) - High contrast, legible.
-- **Secondary Text:** `#A1A1AA` (Zinc 400) - Labels, subtext, units.
-- **Muted Text:** `#52525B` (Zinc 600) - Disabled states, placeholders.
+- **Primary Text:** `#26140A` - High contrast, deep brown/black for maximum legibility.
+- **Secondary Text:** `#6F5A4A` - Used for labels, subtext, and units.
 
 ### Semantic & Status Colors
 
 These colors dictate the state of the motor and system health.
 
-- **Healthy / Active / On:** `#10B981` (Emerald 500)
+- **Healthy / Active / On (Success):** `#2E7D32`
   - *Usage:* Motor running, network connected, successful operations.
-- **Warning / Degraded:** `#F59E0B` (Amber 500)
+- **Warning / Degraded (Warning):** `#E8A317`
   - *Usage:* High temperature, approaching limits, warning logs.
-- **Critical / Fault / Off:** `#EF4444` (Red 500)
+- **Critical / Fault / Off (Danger):** `#D32F2F`
   - *Usage:* Emergency stops, motor faults, disconnected state, destructive actions.
-- **Information / System:** `#3B82F6` (Blue 500)
+- **Information / System (Info):** `#3A7BD5`
   - *Usage:* Engineer mode indicators, tuning parameters, neutral data visualization.
 
 ### Primary Brand Color
-- **MotorIQ Accent:** `#6366F1` (Indigo 500)
-  - *Usage:* Primary buttons (non-destructive), active tab indicators, focus rings.
+- **Primary Accent:** `#EE6C44` (Vibrant Industrial Orange)
+  - *Usage:* Primary buttons, active tab indicators, focus rings, call-to-actions.
 
 ## Implementation (Tailwind Tokens)
 
@@ -44,16 +43,17 @@ Configure these in `tailwind.config.js` to ensure the team uses consistent token
 theme: {
   extend: {
     colors: {
-      background: '#09090B',
-      surface: '#18181B',
-      surfaceHover: '#27272A',
-      textPrimary: '#FAFAFA',
-      textSecondary: '#A1A1AA',
-      primary: '#6366F1',
-      success: '#10B981',
-      warning: '#F59E0B',
-      critical: '#EF4444',
-      info: '#3B82F6',
+      background: '#F6F0E5',
+      surface: '#FFFDFC',
+      card: '#FFFDFC',
+      navigation: '#EAE1D3',
+      'text-primary': '#26140A',
+      'text-secondary': '#6F5A4A',
+      primary: '#EE6C44',
+      success: '#2E7D32',
+      warning: '#E8A317',
+      danger: '#D32F2F',
+      info: '#3A7BD5',
     }
   }
 }
@@ -63,21 +63,12 @@ theme: {
 
 ### Button Styles
 - **Primary:** `bg-primary text-white hover:brightness-110`
-- **Stop/Emergency:** `bg-critical text-white font-bold hover:brightness-110 shadow-[0_0_15px_rgba(239,68,68,0.5)]`
-- **Secondary:** `bg-transparent border border-surfaceHover text-textPrimary hover:bg-surfaceHover`
-- **Disabled:** `bg-surface opacity-50 cursor-not-allowed text-textSecondary`
+- **Stop/Emergency:** `bg-danger text-white font-bold hover:brightness-110`
+- **Secondary:** `bg-transparent border border-navigation text-text-primary hover:bg-navigation`
 
 ### Card Styles
-- Base: `bg-surface border border-zinc-800 rounded-xl`
-- Hover/Interactive: `hover:border-zinc-700 transition-colors duration-200`
+- Base: `bg-surface border border-navigation rounded-xl`
 
 ### Input Styles
-- Default: `bg-background border border-zinc-700 text-textPrimary focus:border-primary focus:ring-1 focus:ring-primary`
-- Error: `border-critical focus:ring-critical focus:border-critical`
-
-## Scales
-
-- **Spacing:** standard Tailwind scale (4px base). `p-4` (16px), `p-6` (24px).
-- **Border Radius:** Soft corners for a modern feel. Cards use `rounded-xl` (12px), Buttons use `rounded-lg` (8px).
-- **Shadows (Depth):** Used minimally in dark mode. Prefer subtle borders. Modals use intense drop shadows to create elevation `shadow-2xl`.
-- **Transitions:** Standard UI changes use `duration-150 ease-in-out`. State changes use `duration-300`.
+- Default: `bg-background border border-navigation text-text-primary focus:border-primary focus:ring-1 focus:ring-primary`
+- Error: `border-danger focus:ring-danger focus:border-danger`

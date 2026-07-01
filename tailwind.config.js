@@ -8,13 +8,13 @@ export default {
     extend: {
       colors: {
         background: '#F6F0E5',
-        surface: '#FFFDF9',
+        surface: '#FFFDFC',
         card: '#FFFDFC',
         border: '#EAE1D3',
-        navigation: '#EAE1D3', // Keep for backward compatibility with AppShell
+        navigation: '#EAE1D3',
         'text-primary': '#26140A',
         'text-secondary': '#6F5A4A',
-        primary: '#26140A', // Changed primary to the dark industrial brown/black per constitution
+        primary: '#EE6C44',
         secondary: '#6F5A4A',
         accent: '#EE6C44',
         success: '#2E7D32',
