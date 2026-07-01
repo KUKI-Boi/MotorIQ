@@ -35,7 +35,7 @@ const typographyVariants = cva("text-text-primary", {
 })
 
 export interface TypographyProps
-  extends React.HTMLAttributes<HTMLElement>,
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'color'>,
     VariantProps<typeof typographyVariants> {
   as?: React.ElementType
 }
@@ -54,7 +54,7 @@ export const Typography = React.forwardRef<HTMLElement, TypographyProps>(
     return (
       <Component
         ref={ref as any}
-        className={cn(typographyVariants({ variant, align, color, className }))}
+        className={cn(typographyVariants({ variant, align, color: color as any, className }))}
         {...props}
       />
     )

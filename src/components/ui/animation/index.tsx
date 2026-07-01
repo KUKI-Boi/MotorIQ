@@ -1,5 +1,6 @@
 import * as React from "react"
-import { motion, AnimatePresence, HTMLMotionProps } from "framer-motion"
+import { motion } from "framer-motion"
+import type { HTMLMotionProps } from "framer-motion"
 
 export const Fade: React.FC<HTMLMotionProps<"div">> = ({ children, ...props }) => (
   <motion.div

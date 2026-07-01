@@ -22,7 +22,6 @@ import { SegmentedControl } from '@/components/ui/navigation/SegmentedControl'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from '@/components/ui/navigation/Breadcrumb'
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext, PaginationLink } from '@/components/ui/navigation/Pagination'
 import { Drawer } from '@/components/ui/dialog/Drawer'
-import { Fade, SlideUp, HoverLift } from '@/components/ui/animation'
 import { Activity, Plus, Settings, ShieldAlert, Cpu, Download, Search, Info } from 'lucide-react'
 import { useState } from 'react'
 
