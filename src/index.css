@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-inter antialiased;
+    /* Optional: custom scrollbar styling could go here for industrial look */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-aquire uppercase tracking-wide;
+  }
+}
+
+/* Base styles to support Aquire when it is loaded */
+@font-face {
+  font-family: 'Aquire';
+  src: url('/fonts/Aquire-BW0ox.otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
