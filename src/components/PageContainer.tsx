@@ -2,7 +2,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 
 export const PageContainer: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={cn("w-full h-full max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6", className)}>
+  <div className={cn("w-full min-h-full max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col gap-6", className)}>
     {children}
   </div>
 );

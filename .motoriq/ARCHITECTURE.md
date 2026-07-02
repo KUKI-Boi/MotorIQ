@@ -17,7 +17,7 @@ graph TD
 1. **Presentation Layer (`/src/components`)**: Pure UI components, unaware of business logic.
 2. **Layout Layer (`/src/layouts`)**: Structural wrappers (AppShell, Sidebar) managing responsive grids.
 3. **State Layer (`/src/store`)**: Zustand stores handling business logic, user sessions, and real-time telemetry state.
-4. **Service Layer (`/src/services` - Future)**: REST API clients, WebSocket managers, and data formatting.
+4. **Communication Layer (`/src/services`)**: Transports (Mock, REST, WS), ConnectionManager, and resilience features (OfflineQueue, Retry).
 5. **Routing Layer (`/src/app/router.tsx`)**: React Router managing views and role-based access.
 
 ## Folder Relationships
@@ -45,17 +45,17 @@ Features are built by composing generic `ui` primitives into `domain` components
 - **Abstraction**: Components never call `fetch` or `axios` directly. All network requests are routed through dedicated service classes or custom hooks.
 - **Typing**: All API responses and payloads are strictly typed with TypeScript interfaces.
 
-## Future REST Architecture
-- Used for configuration, settings, historical data retrieval, and user authentication.
-- Standardized error handling and retry mechanisms via an Axios interceptor or standardized Fetch wrapper.
+## Communication Layer Architecture
+The UI is strictly decoupled from the underlying hardware communication.
+- **TelemetryManager**: The sole entry point for the UI to send commands.
+- **ConnectionManager**: Orchestrates the active transport, monitors latency, and handles reconnections.
+- **Transports (`ITransport`)**: Standardized interfaces for Mock, REST, and WebSocket communication. Allows hot-swapping network strategies without UI changes.
+- **Resilience**: Features an `OfflineQueue` for buffering commands during network drops, and a `RetryService` for exponential backoff on connection failures.
 
-## Future WebSocket Architecture
-- Used exclusively for high-frequency real-time telemetry (RPM, Voltage, Current, Temperature).
-- Must include automatic reconnection logic, heartbeat ping/pong, and visual connection status indicators (Online/Offline/Reconnecting).
-
-## ESP32 Communication Layer
-- The interface boundary between the web app and the ESP32.
-- Data payloads must be kept minimal (JSON) to accommodate the memory and processing limits of the ESP32.
+## ESP32 Communication (Future)
+- The web app will interface with the ESP32 using the `WebSocketTransport` for high-frequency telemetry (RPM, Voltage, Current, Temperature).
+- `RestTransport` will be utilized for bulk historical data or configuration.
+- Data payloads are kept minimal (JSON) to accommodate the memory and processing limits of the ESP32. See `API-CONTRACT.md`.
 
 ## Dependency Rules
 - **Downward Dependency**: Pages depend on Domains, Domains depend on UI, UI depends on nothing.

@@ -4,6 +4,7 @@ import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { BottomNav } from './BottomNav';
 import { ResponsiveDrawer } from './ResponsiveDrawer';
+import { ConnectionDebugPanel } from '../features/dev/ConnectionDebugPanel';
 
 export const AppShell: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ export const AppShell: React.FC = () => {
       <div className="md:hidden z-30">
         <BottomNav />
       </div>
+      <ConnectionDebugPanel />
     </div>
   );
 };

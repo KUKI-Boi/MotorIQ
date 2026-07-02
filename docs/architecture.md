@@ -57,19 +57,32 @@ Managed by `react-router-dom`. It is responsible strictly for mapping URLs to La
 #### 2. Service Layer
 Abstracts all external communication. UI components never make direct `fetch` calls. They invoke functions from the Service Layer, which handle network resilience, retries, and data formatting. 
 
-#### 3. State Management Strategy
+#### 3. Role-Based Access Control (RBAC)
+MotorIQ implements a role-based access system to segment interfaces and privileges:
+- **`OPERATOR`**: Standard access limited to the Overview, basic Controls, and Settings.
+- **`ENGINEER`**: Elevated access to deep diagnostic panels, advanced analytics, sensor calibration, and raw event logs.
+Access control is managed via `useAuthStore` and enforced visually via dynamic navigation paths in the `Sidebar` and component-level rendering logic.
+
+#### 4. State Management Strategy
 Managed by **Zustand**. 
 - **Global UI State:** Managed in `useUiStore` (e.g., `isSidebarCollapsed`, `isMobileDrawerOpen`). These states are persisted via `localStorage` when appropriate.
 - **Feature State:** Complex feature-specific states (e.g., current PID tuning parameters before saving) reside in feature-specific Zustand slices.
 - **Local State:** Component-specific ephemeral UI states (e.g., dropdown open/close) remain in React `useState`.
 
-#### 4. Future REST Layer
+#### 4. The Data Engine (Mock & Telemetry)
+The current implementation utilizes a background Mock Data Engine that strictly separates data generation from the React UI lifecycle.
+- **SimulationEngine:** Calculates realistic physics (inertia, voltage dips, thermal modeling). Runs via `setInterval` in a singleton service.
+- **FaultEngine:** Observes the state and triggers structural faults (`useLogStore`) if safety limits are exceeded.
+- **EventEngine:** Emits structured operational logs (e.g., "Motor Started", "Fault Cleared").
+- **TelemetryService:** The facade. Acts as the single subscriber to the engines, and pushes states directly to Zustand. It is designed to be easily swapped with an `Esp32TelemetryService`.
+
+#### 5. Future REST Layer
 Used for low-frequency, high-reliability transactions. Examples include:
 - Initializing device configuration.
 - Authenticating the user.
 - Updating PID gain constants ($K_p$, $K_i$, $K_d$).
 
-#### 5. Future WebSocket Layer
+#### 6. Future WebSocket Layer
 Used for high-frequency, real-time telemetry. The WebSocket connection will stream motor RPM, current, and voltage at 10-50Hz. The Service Layer will throttle/debounce this data before committing to the Zustand store to prevent UI render thrashing.
 
 ## ESP32 Communication Architecture

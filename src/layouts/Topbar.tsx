@@ -44,8 +44,8 @@ export const Topbar: React.FC = () => {
         
         {/* Desktop Page Context */}
         <div className="hidden md:block">
-          <h2 className="text-xl font-sora font-semibold text-text-primary tracking-tight">{getPageTitle()}</h2>
-          <p className="text-xs text-text-secondary font-medium">MotorIQ Intelligent Controller</p>
+          <h2 className="text-xl font-aquire text-text-primary tracking-wide uppercase">{getPageTitle()}</h2>
+          <p className="text-xs text-text-secondary font-medium mt-0.5">MotorIQ Intelligent Controller</p>
         </div>
       </div>
 
