@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface PidSettings {
   kp: number;
@@ -36,20 +37,27 @@ const defaultLimits: MotorLimits = {
   maxTemperature: 85.0
 };
 
-export const useSettingsStore = create<SettingsStore>((set) => ({
-  pid: defaultPid,
-  limits: defaultLimits,
-  
-  updatePid: (pidParams) => set((state) => ({ 
-    pid: { ...state.pid, ...pidParams } 
-  })),
-  
-  updateLimits: (limitParams) => set((state) => ({
-    limits: { ...state.limits, ...limitParams }
-  })),
-  
-  resetToDefaults: () => set({
-    pid: defaultPid,
-    limits: defaultLimits
-  })
-}));
+export const useSettingsStore = create<SettingsStore>()(
+  persist(
+    (set) => ({
+      pid: defaultPid,
+      limits: defaultLimits,
+      
+      updatePid: (pidParams) => set((state) => ({ 
+        pid: { ...state.pid, ...pidParams } 
+      })),
+      
+      updateLimits: (limitParams) => set((state) => ({
+        limits: { ...state.limits, ...limitParams }
+      })),
+      
+      resetToDefaults: () => set({
+        pid: defaultPid,
+        limits: defaultLimits
+      })
+    }),
+    {
+      name: 'motoriq-settings-store', // key in localStorage
+    }
+  )
+);

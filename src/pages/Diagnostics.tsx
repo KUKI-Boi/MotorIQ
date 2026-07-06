@@ -28,10 +28,8 @@ export default function Diagnostics() {
 
   return (
     <PageContainer className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-sora font-semibold text-text-primary uppercase tracking-wider">Diagnostics</h1>
-        <p className="text-text-secondary mt-1">Deep analysis of motor control loops and sensory data</p>
-      </div>
+
+
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
         

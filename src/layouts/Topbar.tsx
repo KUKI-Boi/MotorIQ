@@ -6,10 +6,12 @@ import { Bell, UserCircle, Menu, PanelLeftClose, PanelLeftOpen } from 'lucide-re
 import { AppLogo } from '@/components/AppLogo';
 import { useUiStore } from '@/store/useUiStore';
 import { useLocation } from 'react-router-dom';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 export const Topbar: React.FC = () => {
   const { isSidebarCollapsed, toggleSidebar, setMobileDrawerOpen } = useUiStore();
   const location = useLocation();
+  const isOnline = useOnlineStatus();
   
   // Create a nice title from the route
   const getPageTitle = () => {
@@ -54,7 +56,14 @@ export const Topbar: React.FC = () => {
         <div className="hidden xl:flex items-center gap-6 px-5 py-1.5 bg-background/50 rounded-xl border border-navigation/50">
           <ConnectionBadge label="ESP32" status="connected" />
           <div className="w-px h-6 bg-navigation"></div>
-          <ConnectionBadge label="WiFi" status="connected" />
+          {isOnline ? (
+            <ConnectionBadge label="WiFi" status="connected" />
+          ) : (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-danger animate-pulse" />
+              <span className="text-xs font-semibold text-danger uppercase tracking-wider">Offline</span>
+            </div>
+          )}
         </div>
 
         <div className="hidden sm:block">

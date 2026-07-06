@@ -3,7 +3,9 @@ import { PageContainer } from '../components/PageContainer';
 import { useTimeSeriesStore } from '../store/useTimeSeriesStore';
 import { ChartCard, ChartHeader, ChartTitle, ChartContainer } from '../components/ui/chart/ChartLayout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Activity, Zap, Thermometer, Gauge } from 'lucide-react';
+import { Activity, Zap, Thermometer, Gauge, Download } from 'lucide-react';
+import { Button } from '../components/ui/button/Button';
+import { exportToJson } from '../utils/export';
 
 const AdvancedChart = React.memo(({ data, dataKey, stroke, fill, yAxisDomain, title, icon: Icon }: { data: any[], dataKey: string, stroke: string, fill?: string, yAxisDomain?: [number|string, number|string], title: string, icon: any }) => (
   <ChartCard className="h-[350px]">
@@ -58,11 +60,10 @@ export default function Analytics() {
 
   return (
     <PageContainer className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-sora font-semibold text-text-primary uppercase tracking-wider flex items-center gap-3">
-          <Activity className="w-6 h-6 text-primary" /> Advanced Analytics
-        </h1>
-        <p className="text-text-secondary mt-1">High-resolution telemetry history and distribution</p>
+      <div className="flex items-center justify-end gap-4">
+        <Button variant="outline" onClick={() => exportToJson(data, 'MotorIQ_Telemetry')}>
+          <Download className="w-4 h-4 mr-2" /> Export JSON
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

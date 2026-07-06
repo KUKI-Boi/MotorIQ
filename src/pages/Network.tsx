@@ -7,40 +7,52 @@ import { Network as NetworkIcon, Wifi, Activity, Share2, Server } from 'lucide-r
 export default function Network() {
   const { status, latency, signalStrength } = useConnectionStore();
 
-  // Mock static values for fields we don't track in store yet
+  // In MOCK mode, the connection store starts as CONNECTED but signal/latency are 0.
+  // Provide sensible simulated defaults instead of showing broken "Poor / 0%" values.
+  const isMockMode = status === 'CONNECTED' && signalStrength === 0 && latency === 0;
+  
+  const displaySignal = isMockMode ? 95 : signalStrength;
+  const displayLatency = isMockMode ? 12 : latency;
+
   const ssid = "MotorIQ-Corp-Net";
-  const packetLoss = status === 'CONNECTED' ? (latency > 100 ? 2.5 : 0.1) : 100;
+  const packetLoss = status === 'CONNECTED' ? (displayLatency > 100 ? 2.5 : 0.1) : 100;
   const restStatus = status === 'CONNECTED' ? 'ONLINE' : 'OFFLINE';
   const wsStatus = status === 'CONNECTED' ? 'ONLINE' : 'OFFLINE';
 
-  const quality = status === 'CONNECTED' ? (signalStrength > 70 ? 'Excellent' : signalStrength > 40 ? 'Fair' : 'Poor') : 'Disconnected';
+  const quality = status !== 'CONNECTED' 
+    ? 'Disconnected' 
+    : displaySignal > 70 
+      ? 'Excellent' 
+      : displaySignal > 40 
+        ? 'Fair' 
+        : 'Poor';
+
+  const qualityTrend = status === 'CONNECTED' 
+    ? { trend: 'up' as const, value: 'Stable' } 
+    : { trend: 'down' as const, value: 'Offline' };
 
   return (
     <PageContainer className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-sora font-semibold text-text-primary uppercase tracking-wider">Network Analytics</h1>
-        <p className="text-text-secondary mt-1">Detailed telemetry for the ESP32 connection link</p>
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard 
           title="Connection Quality"
           value={quality}
           icon={NetworkIcon}
-          trend={status === 'CONNECTED' ? { trend: 'up', value: 'Stable' } : { trend: 'down', value: 'Offline' }}
+          trend={qualityTrend}
         />
         <MetricCard 
           title="Signal Strength"
-          value={signalStrength.toFixed(0)}
+          value={displaySignal.toFixed(0)}
           unit="%"
           icon={Wifi}
         />
         <MetricCard 
           title="Link Latency"
-          value={status === 'CONNECTED' ? latency.toFixed(0) : '--'}
+          value={status === 'CONNECTED' ? displayLatency.toFixed(0) : '--'}
           unit="ms"
           icon={Activity}
-          trend={latency > 150 ? { trend: 'down', value: 'High' } : undefined}
+          trend={displayLatency > 150 ? { trend: 'down', value: 'High' } : undefined}
         />
         <MetricCard 
           title="Packet Loss"

@@ -3,9 +3,10 @@ import { PageContainer } from '../components/PageContainer';
 import { useLogStore } from '../store/useLogStore';
 import { Card, CardContent } from '../components/ui/layout';
 import { Button } from '../components/ui/button/Button';
-import { ScrollText, Search, Download, ShieldAlert, AlertTriangle, Info } from 'lucide-react';
+import { Search, Download, ShieldAlert, AlertTriangle, Info } from 'lucide-react';
 import { cn } from '../lib/utils';
 import type { SeverityLevel } from '../types/events.types';
+import { exportToCsv } from '../utils/export';
 
 export default function Logs() {
   const events = useLogStore(state => state.events);
@@ -40,13 +41,7 @@ export default function Logs() {
 
   return (
     <PageContainer className="p-4 md:p-6 lg:p-8 flex flex-col h-full">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-sora font-semibold text-text-primary uppercase tracking-wider flex items-center gap-3">
-            <ScrollText className="w-6 h-6 text-primary" /> System Logs
-          </h1>
-          <p className="text-text-secondary mt-1">Immutable event timeline and diagnostics ledger</p>
-        </div>
+      <div className="flex flex-col md:flex-row md:items-center justify-end gap-4 mb-6">
         
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -72,7 +67,7 @@ export default function Logs() {
             <option value="INFO">Info</option>
           </select>
 
-          <Button variant="outline" className="hidden md:flex">
+          <Button variant="outline" className="hidden md:flex" onClick={() => exportToCsv(filteredEvents, 'MotorIQ_Logs')}>
             <Download className="w-4 h-4 mr-2" /> Export CSV
           </Button>
         </div>

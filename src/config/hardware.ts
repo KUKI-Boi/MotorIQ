@@ -1,4 +1,4 @@
-export type DriverMode = 'MOCK' | 'ESP32';
+export type DriverMode = 'MOCK' | 'ESP32' | 'WS';
 
 export interface HardwareConfig {
   mode: DriverMode;

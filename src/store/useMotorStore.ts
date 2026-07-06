@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import type { MotorState, MotorStatus, MotorHealth } from '../types/motor.types';
 
 interface MotorStore extends MotorState {
+  activeMotorId: string;
+  motors: Record<string, MotorState>;
+  setActiveMotor: (id: string) => void;
   // Actions
   setTargetRpm: (rpm: number) => void;
   setStatus: (status: MotorStatus) => void;
@@ -30,19 +33,51 @@ const initialState: MotorState = {
 export const useMotorStore = create<MotorStore>()((set) => ({
   ...initialState,
   
-  setTargetRpm: (rpm) => set({ targetRpm: rpm }),
+  activeMotorId: 'motor-1',
+  motors: {
+    'motor-1': { ...initialState }
+  },
+
+  setActiveMotor: (id) => set((state) => {
+    if (!state.motors[id]) return state;
+    return {
+      activeMotorId: id,
+      ...state.motors[id]
+    };
+  }),
   
-  setStatus: (status) => set({ status }),
+  setTargetRpm: (rpm) => set((state) => {
+    const updated = { ...state.motors[state.activeMotorId], targetRpm: rpm };
+    return { targetRpm: rpm, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  }),
   
-  updateTelemetry: (telemetry) => set((state) => ({ ...state, ...telemetry })),
+  setStatus: (status) => set((state) => {
+    const updated = { ...state.motors[state.activeMotorId], status };
+    return { status, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  }),
   
-  addFault: (faultId) => set((state) => ({
-    faults: state.faults.includes(faultId) ? state.faults : [...state.faults, faultId]
-  })),
+  updateTelemetry: (telemetry) => set((state) => {
+    const updated = { ...state.motors[state.activeMotorId], ...telemetry };
+    return { ...telemetry, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  }),
   
-  removeFault: (faultId) => set((state) => ({
-    faults: state.faults.filter(id => id !== faultId)
-  })),
+  addFault: (faultId) => set((state) => {
+    const currentFaults = state.motors[state.activeMotorId].faults;
+    if (currentFaults.includes(faultId)) return state;
+    
+    const newFaults = [...currentFaults, faultId];
+    const updated = { ...state.motors[state.activeMotorId], faults: newFaults };
+    return { faults: newFaults, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  }),
   
-  setHealth: (health) => set({ health })
+  removeFault: (faultId) => set((state) => {
+    const newFaults = state.motors[state.activeMotorId].faults.filter(id => id !== faultId);
+    const updated = { ...state.motors[state.activeMotorId], faults: newFaults };
+    return { faults: newFaults, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  }),
+  
+  setHealth: (health) => set((state) => {
+    const updated = { ...state.motors[state.activeMotorId], health };
+    return { health, motors: { ...state.motors, [state.activeMotorId]: updated } };
+  })
 }));

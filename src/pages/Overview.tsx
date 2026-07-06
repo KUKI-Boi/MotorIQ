@@ -18,7 +18,7 @@ export default function Overview() {
         - Desktop: 12-column grid
       */}
       <div className="flex flex-col xl:grid xl:grid-cols-12 gap-6">
-        
+
         {/* ROW 1: Hero & System Health */}
         <div className="xl:col-span-8 flex flex-col">
           <HeroPanel />
@@ -31,12 +31,12 @@ export default function Overview() {
         <div className="xl:col-span-12">
           <LiveMetricsGrid />
         </div>
-        
+
         {/* ROW 3: Events, Analytics, Controls */}
         <div className="xl:col-span-3 flex flex-col h-[320px]">
           <EventTimelineWidget />
         </div>
-        
+
         <div className="xl:col-span-6 flex flex-col h-[320px]">
           <LiveAnalyticsPanel />
         </div>

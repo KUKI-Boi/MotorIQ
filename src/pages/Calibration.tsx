@@ -2,17 +2,13 @@
 import { PageContainer } from '../components/PageContainer';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/layout';
 import { Button } from '../components/ui/button/Button';
-import { PenTool, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 
 export default function Calibration() {
   return (
     <PageContainer className="p-4 md:p-6 lg:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-sora font-semibold text-text-primary uppercase tracking-wider flex items-center gap-3">
-          <PenTool className="w-6 h-6 text-primary" /> Calibration
-        </h1>
-        <p className="text-text-secondary mt-1">Configure offset values for hardware sensors</p>
-      </div>
+
+
 
       <div className="max-w-2xl">
         <Card className="relative overflow-hidden">

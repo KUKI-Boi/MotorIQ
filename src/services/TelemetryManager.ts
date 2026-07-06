@@ -98,8 +98,11 @@ export class TelemetryManager {
    * Dynamically switch to a different driver (legacy UI method mapping).
    */
   static async switchTransport(type: string, _url?: string): Promise<void> {
-    // Map previous 'MOCK' | 'REST' | 'WEBSOCKET' to DriverMode
-    const mode = type === 'MOCK' ? 'MOCK' : 'ESP32';
+    // Map previous strings to DriverMode
+    let mode: DriverMode = 'MOCK';
+    if (type === 'ESP32' || type === 'REST') mode = 'ESP32';
+    if (type === 'WEBSOCKET' || type === 'WS') mode = 'WS';
+    
     await this.switchDriver(mode);
   }
   
