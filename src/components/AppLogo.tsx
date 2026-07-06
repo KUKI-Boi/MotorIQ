@@ -6,7 +6,7 @@ export const AppLogo: React.FC<{ className?: string; iconOnly?: boolean }> = ({ 
       <img
         src="/motoriq-logo.png"
         alt="MotorIQ Logo"
-        className="h-full w-full object-contain scale-[1.25]"
+        className="h-full w-full object-contain scale-[2]"
       />
     </div>
     {!iconOnly && (
