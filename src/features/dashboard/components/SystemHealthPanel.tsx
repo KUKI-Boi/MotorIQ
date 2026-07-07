@@ -8,7 +8,7 @@ import { ShieldAlert, Cpu, Zap, Settings, Activity } from 'lucide-react';
 export const SystemHealthPanel: React.FC = () => {
   const motorHealth = useMotorStore(state => state.health);
   const connStatus = useConnectionStore(state => state.status);
-  
+
   // Map internal health strings to badge variants
   const getVariant = (health: string) => {
     if (health === 'EXCELLENT' || health === 'CONNECTED') return 'success';
@@ -39,7 +39,7 @@ export const SystemHealthPanel: React.FC = () => {
             </div>
             <HealthBadge label={getLabel(motorHealth)} variant={getVariant(motorHealth)} />
           </div>
-          
+
           <div className="flex items-center justify-between p-2.5 bg-background rounded-lg border border-navigation/30">
             <div className="flex items-center gap-3 text-text-secondary text-sm font-medium">
               <Zap className="w-4 h-4 text-warning" /> Power Driver
@@ -53,10 +53,10 @@ export const SystemHealthPanel: React.FC = () => {
             </div>
             <HealthBadge label="OK" variant="success" />
           </div>
-          
+
           <div className="flex items-center justify-between p-2.5 bg-background rounded-lg border border-navigation/30">
             <div className="flex items-center gap-3 text-text-secondary text-sm font-medium">
-              <Cpu className="w-4 h-4 text-success" /> ESP32 SoC
+              <Cpu className="w-4 h-4 text-success" /> ESP32
             </div>
             <HealthBadge label={getLabel(connStatus)} variant={getVariant(connStatus)} />
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useConnectionStore } from '../../store/useConnectionStore';
 import { TelemetryManager } from '../../services/TelemetryManager';
 import { Button } from '../../components/ui/button/Button';
@@ -7,12 +7,21 @@ import { cn } from '../../lib/utils';
 
 export const ConnectionDebugPanel: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
+  const [position, setPosition] = useState({ x: 16, y: 500 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dockedSide, setDockedSide] = useState<'left' | 'right'>('left');
+  const dragStartRef = useRef<{ clientX: number; clientY: number; posX: number; posY: number; time: number } | null>(null);
   
   const status = useConnectionStore(state => state.status);
   const protocol = useConnectionStore(state => state.protocol);
   const latency = useConnectionStore(state => state.latency);
   const errorCount = useConnectionStore(state => state.errorCount);
   const queueSize = useConnectionStore(state => state.queueSize);
+
+  useEffect(() => {
+    // Set initial position based on window height on client mount
+    setPosition({ x: 16, y: window.innerHeight - 80 });
+  }, []);
 
   if (!import.meta.env.DEV) {
     return null; // Only render in development
@@ -34,24 +43,116 @@ export const ConnectionDebugPanel: React.FC = () => {
     TelemetryManager.switchTransport('WEBSOCKET', 'ws://localhost:8080');
   };
 
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return; // Only allow left/primary click drag
+    
+    // Get starting layout location
+    const rect = e.currentTarget.getBoundingClientRect();
+    
+    dragStartRef.current = {
+      clientX: e.clientX,
+      clientY: e.clientY,
+      posX: rect.left,
+      posY: rect.top,
+      time: Date.now(),
+    };
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || !dragStartRef.current) return;
+    
+    const deltaX = e.clientX - dragStartRef.current.clientX;
+    const deltaY = e.clientY - dragStartRef.current.clientY;
+    
+    let newX = dragStartRef.current.posX + deltaX;
+    let newY = dragStartRef.current.posY + deltaY;
+
+    // Clamp Y inside viewport boundaries so it doesn't go off screen
+    const buttonHeight = 44; 
+    const buttonWidth = 44; 
+    newY = Math.max(16, Math.min(window.innerHeight - buttonHeight - 16, newY));
+    newX = Math.max(16, Math.min(window.innerWidth - buttonWidth - 16, newX));
+
+    setPosition({ x: newX, y: newY });
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDragging || !dragStartRef.current) return;
+    setIsDragging(false);
+    e.currentTarget.releasePointerCapture(e.pointerId);
+
+    const deltaX = Math.abs(e.clientX - dragStartRef.current.clientX);
+    const deltaY = Math.abs(e.clientY - dragStartRef.current.clientY);
+    const timeDiff = Date.now() - dragStartRef.current.time;
+
+    // If movement was minimal and duration was short, treat as click
+    if (deltaX < 6 && deltaY < 6 && timeDiff < 200) {
+      setExpanded(true);
+      dragStartRef.current = null;
+      return;
+    }
+
+    dragStartRef.current = null;
+
+    // Snap to the closest side of the screen (left or right)
+    const midX = window.innerWidth / 2;
+    const buttonWidth = 44; 
+    const isLeftSide = position.x < midX;
+    
+    const finalX = isLeftSide ? 16 : window.innerWidth - buttonWidth - 16;
+    setDockedSide(isLeftSide ? 'left' : 'right');
+    setPosition(prev => ({ x: finalX, y: prev.y }));
+  };
+
+  const triggerStyle: React.CSSProperties = isDragging
+    ? {
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        position: 'fixed',
+        transform: 'none',
+        transition: 'none',
+        touchAction: 'none',
+      }
+    : {
+        left: dockedSide === 'left' ? '16px' : 'auto',
+        right: dockedSide === 'right' ? '16px' : 'auto',
+        top: `${position.y}px`,
+        position: 'fixed',
+        transition: 'left 0.3s cubic-bezier(0.16, 1, 0.3, 1), right 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+        touchAction: 'none',
+      };
+
   if (!expanded) {
     return (
       <div 
-        className="fixed bottom-4 left-4 z-50 bg-card/90 backdrop-blur-md border border-navigation/80 p-2 rounded-full cursor-pointer shadow-lg hover:border-primary/50 transition-colors flex items-center gap-2"
-        onClick={() => setExpanded(true)}
-        title="Connection Debug"
+        className={cn(
+          "z-50 bg-card/90 backdrop-blur-md border border-navigation/80 p-2 rounded-full cursor-grab active:cursor-grabbing shadow-lg hover:border-primary/50 transition-colors flex items-center gap-2 select-none"
+        )}
+        style={triggerStyle}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        title="Drag to move, click to open Net Debug"
       >
         {status === 'CONNECTED' ? (
-          <Wifi className="w-5 h-5 text-success" />
+          <Wifi className="w-5 h-5 text-success pointer-events-none" />
         ) : (
-          <WifiOff className="w-5 h-5 text-danger" />
+          <WifiOff className="w-5 h-5 text-danger pointer-events-none" />
         )}
       </div>
     );
   }
 
+  // Anchor the panel based on which side the trigger was docked to
+  const panelClass = cn(
+    "fixed bottom-4 z-50 w-80 bg-card/95 backdrop-blur-xl border border-navigation/80 rounded-xl shadow-2xl overflow-hidden font-monospace text-xs",
+    dockedSide === 'left' ? 'left-4' : 'right-4'
+  );
+
   return (
-    <div className="fixed bottom-4 left-4 z-50 w-80 bg-card/95 backdrop-blur-xl border border-navigation/80 rounded-xl shadow-2xl overflow-hidden font-monospace text-xs">
+    <div className={panelClass}>
       <div className="bg-navigation/50 p-3 border-b border-navigation/80 flex items-center justify-between">
         <div className="flex items-center gap-2 font-semibold text-text-primary uppercase tracking-wider">
           <Settings2 className="w-4 h-4 text-primary" /> Net Debug
