@@ -3,6 +3,7 @@ import { useTimeSeriesStore } from '../../../store/useTimeSeriesStore';
 import { ChartCard, ChartHeader, ChartTitle, ChartContainer } from '../../../components/ui/chart/ChartLayout';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/ui/navigation/Tabs';
+import { useNavigate } from 'react-router-dom';
 
 // Memoize the chart so it doesn't re-render unless data changes
 // Actually, data changes 5 times a second, so it will re-render frequently.
@@ -45,13 +46,17 @@ const AnalyticsChart = React.memo(({ data, dataKey, stroke, yAxisDomain }: { dat
 
 export const LiveAnalyticsPanel: React.FC = () => {
   const data = useTimeSeriesStore(state => state.data);
+  const navigate = useNavigate();
 
   return (
-    <ChartCard className="h-full flex flex-col">
+    <ChartCard 
+      className="h-full flex flex-col cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+      onClick={() => navigate('/analytics')}
+    >
       <Tabs defaultValue="rpm" className="w-full h-full flex flex-col">
         <ChartHeader className="mb-4">
-          <ChartTitle>Live Analytics</ChartTitle>
-          <TabsList>
+          <ChartTitle className="hover:text-primary transition-colors">Live Analytics</ChartTitle>
+          <TabsList onClick={(e) => e.stopPropagation()}>
             <TabsTrigger value="rpm">RPM</TabsTrigger>
             <TabsTrigger value="power">Power</TabsTrigger>
             <TabsTrigger value="temperature">Temp</TabsTrigger>
