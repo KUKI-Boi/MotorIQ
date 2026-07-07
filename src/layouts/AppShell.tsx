@@ -17,14 +17,14 @@ export const AppShell: React.FC = () => {
       {/* Mobile Drawer */}
       <ResponsiveDrawer />
 
-      <div className="flex flex-col flex-1 min-w-0 relative z-10">
+      <div className="flex flex-col flex-1 min-h-0 min-w-0 relative z-10">
         {/* Top Navigation */}
         <Topbar />
-        
+
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden relative scroll-smooth flex flex-col">
+        <main className="flex-1 min-h-0 overflow-y-auto md:overflow-y-hidden overflow-x-hidden relative scroll-smooth flex flex-col">
           {/* Pad bottom for mobile nav, full height on desktop */}
-          <div className="pb-28 md:pb-0 flex flex-col flex-1">
+          <div className="pb-28 md:pb-0 flex flex-col flex-1 min-h-0">
             <Outlet />
           </div>
         </main>

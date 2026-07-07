@@ -34,20 +34,24 @@ export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, trend, ...props }, ref) => (
-    <div ref={ref} className={cn("px-4 py-3 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-center gap-1.5 group", className)} {...props}>
-      <div className="flex justify-between items-center">
-        <h4 className="text-xs font-semibold text-text-secondary tracking-widest uppercase">{title}</h4>
+    <div ref={ref} className={cn("p-4 md:p-5 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-between group", className)} {...props}>
+      <div className="flex justify-between items-start mb-2.5">
+        <h4 className="text-sm font-semibold text-text-secondary tracking-wide uppercase">{title}</h4>
         {Icon && (
-          <div className="p-1.5 bg-navigation/30 rounded-lg group-hover:bg-primary/10 transition-colors">
-            <Icon className="w-4 h-4 text-text-primary group-hover:text-primary transition-colors" />
+          <div className="p-2 bg-navigation/30 rounded-lg group-hover:bg-primary/10 transition-colors">
+            <Icon className="w-5 h-5 text-text-primary group-hover:text-primary transition-colors" />
           </div>
         )}
       </div>
-      <div className="flex items-baseline gap-1.5">
-        <span className="text-2xl md:text-3xl font-sora font-bold tracking-tight text-text-primary">{value}</span>
-        {unit && <span className="text-sm font-medium text-text-secondary">{unit}</span>}
+      <div className="flex items-baseline gap-2">
+        <span className="text-3xl md:text-4xl font-sora font-bold tracking-tight text-text-primary">{value}</span>
+        {unit && <span className="text-lg font-medium text-text-secondary">{unit}</span>}
       </div>
-      {trend && <TrendIndicator {...trend} className="self-start" />}
+      {trend && (
+        <div className="mt-4">
+          <TrendIndicator {...trend} />
+        </div>
+      )}
     </div>
   )
 )
@@ -78,16 +82,16 @@ CompactMetric.displayName = "CompactMetric"
 
 export const HeroMetric = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, ...props }, ref) => (
-    <div ref={ref} className={cn("px-6 py-4 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden flex flex-col justify-center", className)} {...props}>
+    <div ref={ref} className={cn("p-5 md:p-6 lg:p-8 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden", className)} {...props}>
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
       <div className="relative z-10">
-        <div className="flex items-center gap-2.5 mb-2">
-          {Icon && <Icon className="w-6 h-6 opacity-80" />}
-          <h4 className="text-sm font-semibold uppercase tracking-widest opacity-80">{title}</h4>
+        <div className="flex items-center gap-3 mb-4">
+          {Icon && <Icon className="w-8 h-8 opacity-80" />}
+          <h4 className="text-lg font-medium opacity-90">{title}</h4>
         </div>
-        <div className="flex items-baseline gap-2">
-          <span className="text-5xl md:text-6xl font-sora font-bold tracking-tighter">{value}</span>
-          {unit && <span className="text-xl md:text-2xl font-medium opacity-80">{unit}</span>}
+        <div className="flex items-baseline gap-3">
+          <span className="text-5xl md:text-6xl lg:text-7xl font-sora font-bold tracking-tighter">{value}</span>
+          {unit && <span className="text-lg md:text-xl lg:text-2xl font-medium opacity-80">{unit}</span>}
         </div>
       </div>
     </div>

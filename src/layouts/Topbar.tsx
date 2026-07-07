@@ -12,7 +12,7 @@ export const Topbar: React.FC = () => {
   const { isSidebarCollapsed, toggleSidebar, setMobileDrawerOpen } = useUiStore();
   const location = useLocation();
   const isOnline = useOnlineStatus();
-  
+
   // Create a nice title from the route
   const getPageTitle = () => {
     const path = location.pathname.substring(1);
@@ -20,10 +20,10 @@ export const Topbar: React.FC = () => {
   };
 
   return (
-    <header className="h-16 bg-card/80 backdrop-blur-md border-b border-navigation/60 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30">
+    <header className="h-20 bg-card/80 backdrop-blur-md border-b border-navigation/60 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30">
       <div className="flex items-center gap-4 md:gap-6">
         {/* Mobile Hamburger */}
-        <button 
+        <button
           onClick={() => setMobileDrawerOpen(true)}
           className="md:hidden p-2 rounded-lg bg-navigation/50 text-text-primary hover:bg-navigation active:scale-95 transition-all"
         >
@@ -31,7 +31,7 @@ export const Topbar: React.FC = () => {
         </button>
 
         {/* Desktop/Tablet Sidebar Toggle */}
-        <button 
+        <button
           onClick={toggleSidebar}
           className="hidden md:flex p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-navigation/50 transition-colors"
           title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
@@ -41,9 +41,9 @@ export const Topbar: React.FC = () => {
 
         {/* Mobile Logo */}
         <div className="md:hidden flex items-center">
-            <AppLogo className="scale-75 origin-left" />
+          <AppLogo className="scale-75 origin-left" />
         </div>
-        
+
         {/* Desktop Page Context */}
         <div className="hidden md:block">
           <h2 className="text-xl font-aquire text-text-primary tracking-wide uppercase">{getPageTitle()}</h2>
