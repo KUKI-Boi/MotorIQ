@@ -14,34 +14,34 @@ export const LiveMetricsGrid: React.FC = () => {
   const energy = useMotorStore(state => state.energy);
   
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 h-full">
       <MetricCard 
         title="Voltage" 
         value={voltage.toFixed(1)} 
         unit="V" 
         icon={Zap}
-        className="h-24"
+        className="h-full"
       />
       <MetricCard 
         title="Current" 
         value={current.toFixed(1)} 
         unit="A" 
         icon={Activity}
-        className="h-24"
+        className="h-full"
       />
       <MetricCard 
         title="Power" 
         value={power.toFixed(0)} 
         unit="W" 
         icon={Power}
-        className="h-24"
+        className="h-full"
       />
       <MetricCard 
         title="Temp" 
         value={temperature.toFixed(1)} 
         unit="°C" 
         icon={Thermometer}
-        className="h-24"
+        className="h-full"
         trend={temperature > 75 ? { trend: 'up', value: 'High' } : undefined}
       />
       <MetricCard 
@@ -49,14 +49,14 @@ export const LiveMetricsGrid: React.FC = () => {
         value={pwm.toFixed(0)} 
         unit="%" 
         icon={Activity}
-        className="h-24"
+        className="h-full"
       />
       <MetricCard 
         title="Energy" 
         value={energy.toFixed(3)} 
         unit="kWh" 
         icon={Battery}
-        className="h-24"
+        className="h-full"
       />
     </div>
   );
