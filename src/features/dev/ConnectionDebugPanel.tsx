@@ -10,7 +10,8 @@ export const ConnectionDebugPanel: React.FC = () => {
   const [position, setPosition] = useState({ x: 16, y: 500 });
   const [isDragging, setIsDragging] = useState(false);
   const [dockedSide, setDockedSide] = useState<'left' | 'right'>('left');
-  const dragStartRef = useRef<{ clientX: number; clientY: number; posX: number; posY: number; time: number } | null>(null);
+  const dragStartRef = useRef<{ clientX: number; clientY: number; posX: number; posY: number } | null>(null);
+  const hasDraggedRef = useRef(false);
   
   const status = useConnectionStore(state => state.status);
   const protocol = useConnectionStore(state => state.protocol);
@@ -54,8 +55,8 @@ export const ConnectionDebugPanel: React.FC = () => {
       clientY: e.clientY,
       posX: rect.left,
       posY: rect.top,
-      time: Date.now(),
     };
+    hasDraggedRef.current = false;
     setIsDragging(true);
     e.currentTarget.setPointerCapture(e.pointerId);
   };
@@ -65,6 +66,11 @@ export const ConnectionDebugPanel: React.FC = () => {
     
     const deltaX = e.clientX - dragStartRef.current.clientX;
     const deltaY = e.clientY - dragStartRef.current.clientY;
+    
+    // If moved more than 4 pixels, consider it a drag
+    if (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4) {
+      hasDraggedRef.current = true;
+    }
     
     let newX = dragStartRef.current.posX + deltaX;
     let newY = dragStartRef.current.posY + deltaY;
@@ -83,18 +89,13 @@ export const ConnectionDebugPanel: React.FC = () => {
     setIsDragging(false);
     e.currentTarget.releasePointerCapture(e.pointerId);
 
-    const deltaX = Math.abs(e.clientX - dragStartRef.current.clientX);
-    const deltaY = Math.abs(e.clientY - dragStartRef.current.clientY);
-    const timeDiff = Date.now() - dragStartRef.current.time;
+    dragStartRef.current = null;
 
-    // If movement was minimal and duration was short, treat as click
-    if (deltaX < 6 && deltaY < 6 && timeDiff < 200) {
+    // If there was no actual drag movement, treat as a single click and expand
+    if (!hasDraggedRef.current) {
       setExpanded(true);
-      dragStartRef.current = null;
       return;
     }
-
-    dragStartRef.current = null;
 
     // Snap to the closest side of the screen (left or right)
     const midX = window.innerWidth / 2;
