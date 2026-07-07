@@ -20,7 +20,7 @@ export const Topbar: React.FC = () => {
   };
 
   return (
-    <header className="h-20 bg-card/80 backdrop-blur-md border-b border-navigation/60 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30">
+    <header className="h-16 bg-card/80 backdrop-blur-md border-b border-navigation/60 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30">
       <div className="flex items-center gap-4 md:gap-6">
         {/* Mobile Hamburger */}
         <button 

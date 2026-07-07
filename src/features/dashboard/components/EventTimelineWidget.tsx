@@ -21,19 +21,19 @@ export const EventTimelineWidget: React.FC = () => {
 
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader>
+      <CardHeader className="p-4 pb-2">
         <CardTitle className="text-sm text-text-secondary uppercase tracking-wider flex items-center gap-2">
           <List className="w-4 h-4" /> System Events
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 overflow-y-auto min-h-0 pr-2 custom-scrollbar">
+      <CardContent className="flex-1 overflow-y-auto min-h-0 pr-2 p-4 pt-0 custom-scrollbar">
         {recentEvents.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-text-secondary opacity-50">
             <List className="w-8 h-8 mb-2" />
             <p className="text-sm">No events recorded</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {recentEvents.map(event => (
               <div key={event.id} className="flex gap-3 items-start relative pb-4 last:pb-0">
                 <div className="absolute left-2.5 top-6 bottom-0 w-px bg-navigation/50 -z-10 last:hidden" />

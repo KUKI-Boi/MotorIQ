@@ -20,7 +20,7 @@ export const HeroPanel: React.FC = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 h-full">
       {/* Huge RPM Metric */}
       <div className="lg:col-span-2">
         <HeroMetric 
@@ -33,19 +33,19 @@ export const HeroPanel: React.FC = () => {
       </div>
       
       {/* Contextual Stats Stack */}
-      <div className="flex flex-col gap-4">
-        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-6">
-          <div className="flex items-center gap-3 text-text-secondary">
-            <Target className="w-5 h-5" />
-            <span className="font-medium">Target RPM</span>
+      <div className="flex flex-col gap-3">
+        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-3.5 md:p-4">
+          <div className="flex items-center gap-2.5 text-text-secondary">
+            <Target className="w-5 h-5 text-primary" />
+            <span className="font-medium text-sm">Target RPM</span>
           </div>
-          <span className="text-2xl font-sora font-bold text-text-primary">{targetRpm}</span>
+          <span className="text-xl font-sora font-bold text-text-primary">{targetRpm}</span>
         </Card>
         
-        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-6">
-          <div className="flex items-center gap-3 text-text-secondary">
-            <Settings2 className="w-5 h-5" />
-            <span className="font-medium">Status</span>
+        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-3.5 md:p-4">
+          <div className="flex items-center gap-2.5 text-text-secondary">
+            <Settings2 className="w-5 h-5 text-warning" />
+            <span className="font-medium text-sm">Status</span>
           </div>
           <HealthBadge 
             label={status} 
@@ -53,10 +53,10 @@ export const HeroPanel: React.FC = () => {
           />
         </Card>
 
-        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-6">
-          <div className="flex items-center gap-3 text-text-secondary">
-            <Clock className="w-5 h-5" />
-            <span className="font-medium">Local Time</span>
+        <Card className="flex-1 bg-card/60 backdrop-blur border border-navigation/60 flex items-center justify-between p-3.5 md:p-4">
+          <div className="flex items-center gap-2.5 text-text-secondary">
+            <Clock className="w-5 h-5 text-info" />
+            <span className="font-medium text-sm">Local Time</span>
           </div>
           <span className="text-sm font-monospace font-medium text-text-primary">
             {time.toLocaleTimeString([], { hour12: false })}

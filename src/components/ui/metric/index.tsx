@@ -34,8 +34,8 @@ export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, trend, ...props }, ref) => (
-    <div ref={ref} className={cn("p-6 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-between group", className)} {...props}>
-      <div className="flex justify-between items-start mb-4">
+    <div ref={ref} className={cn("p-4 md:p-5 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-between group", className)} {...props}>
+      <div className="flex justify-between items-start mb-2.5">
         <h4 className="text-sm font-semibold text-text-secondary tracking-wide uppercase">{title}</h4>
         {Icon && (
           <div className="p-2 bg-navigation/30 rounded-lg group-hover:bg-primary/10 transition-colors">
@@ -82,16 +82,16 @@ CompactMetric.displayName = "CompactMetric"
 
 export const HeroMetric = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, ...props }, ref) => (
-    <div ref={ref} className={cn("p-8 md:p-12 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden", className)} {...props}>
+    <div ref={ref} className={cn("p-4 md:p-5 lg:p-6 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden", className)} {...props}>
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
       <div className="relative z-10">
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-3">
           {Icon && <Icon className="w-8 h-8 opacity-80" />}
-          <h4 className="text-lg font-medium opacity-90">{title}</h4>
+          <h4 className="text-base font-medium opacity-90">{title}</h4>
         </div>
-        <div className="flex items-baseline gap-3">
-          <span className="text-6xl md:text-8xl font-sora font-bold tracking-tighter">{value}</span>
-          {unit && <span className="text-2xl md:text-3xl font-medium opacity-80">{unit}</span>}
+        <div className="flex items-baseline gap-2">
+          <span className="text-4xl md:text-5xl lg:text-6xl font-sora font-bold tracking-tighter">{value}</span>
+          {unit && <span className="text-base md:text-lg lg:text-xl font-medium opacity-80">{unit}</span>}
         </div>
       </div>
     </div>

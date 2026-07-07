@@ -10,14 +10,14 @@ import { EventTimelineWidget } from '../features/dashboard/components/EventTimel
 
 export default function Overview() {
   return (
-    <PageContainer className="p-4 md:p-6 lg:p-8">
+    <PageContainer className="p-2 md:p-3 lg:p-4">
       {/* 
         Responsive Dashboard Layout
         - Mobile: Single column
         - Tablet: 2 columns
         - Desktop: 12-column grid
       */}
-      <div className="flex flex-col xl:grid xl:grid-cols-12 gap-6">
+      <div className="flex flex-col xl:grid xl:grid-cols-12 gap-4">
 
         {/* ROW 1: Hero & System Health */}
         <div className="xl:col-span-8 flex flex-col">
@@ -33,15 +33,15 @@ export default function Overview() {
         </div>
 
         {/* ROW 3: Events, Analytics, Controls */}
-        <div className="xl:col-span-3 flex flex-col h-[320px]">
+        <div className="xl:col-span-3 flex flex-col h-[220px]">
           <EventTimelineWidget />
         </div>
 
-        <div className="xl:col-span-6 flex flex-col h-[320px]">
+        <div className="xl:col-span-6 flex flex-col h-[220px]">
           <LiveAnalyticsPanel />
         </div>
 
-        <div className="xl:col-span-3 flex flex-col h-[320px]">
+        <div className="xl:col-span-3 flex flex-col h-[220px]">
           <ControlPanel />
         </div>
 

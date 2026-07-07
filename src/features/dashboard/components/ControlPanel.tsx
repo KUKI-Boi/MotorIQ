@@ -51,16 +51,16 @@ export const ControlPanel: React.FC = () => {
 
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader>
+      <CardHeader className="p-4 pb-2">
         <CardTitle className="text-sm text-text-secondary uppercase tracking-wider">Drive Control</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-6">
+      <CardContent className="flex-1 flex flex-col gap-3.5 p-4 pt-0">
         
         {/* RPM Slider */}
-        <div className="space-y-4 flex-1">
+        <div className="space-y-2 flex-1">
           <div className="flex justify-between items-end">
             <label className="text-sm font-medium text-text-secondary">Target Speed</label>
-            <span className="text-xl font-sora font-bold text-primary">{targetRpm} <span className="text-sm font-sans text-text-secondary">RPM</span></span>
+            <span className="text-lg font-sora font-bold text-primary">{targetRpm} <span className="text-xs font-sans text-text-secondary">RPM</span></span>
           </div>
           <input 
             type="range" 
@@ -70,7 +70,7 @@ export const ControlPanel: React.FC = () => {
             value={targetRpm}
             onChange={handleSliderChange}
             disabled={!isRunning || isFaulted}
-            className="w-full h-2 bg-navigation rounded-lg appearance-none cursor-pointer accent-primary"
+            className="w-full h-1.5 bg-navigation rounded-lg appearance-none cursor-pointer accent-primary"
           />
           <div className="flex justify-between text-xs text-text-secondary font-medium">
             <span>0</span>
@@ -79,10 +79,10 @@ export const ControlPanel: React.FC = () => {
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2">
           <Button 
             variant="primary" 
-            className="w-full justify-center h-12"
+            className="w-full justify-center h-10"
             disabled={isRunning || isFaulted}
             onClick={handleStart}
           >
@@ -90,7 +90,7 @@ export const ControlPanel: React.FC = () => {
           </Button>
           <Button 
             variant="outline" 
-            className="w-full justify-center h-12"
+            className="w-full justify-center h-10"
             disabled={!isRunning && targetRpm === 0}
             onClick={handleStop}
           >
@@ -98,10 +98,10 @@ export const ControlPanel: React.FC = () => {
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 mt-auto">
+        <div className="grid grid-cols-2 gap-2 mt-auto">
           <Button 
             variant="danger" 
-            className="w-full justify-center"
+            className="w-full justify-center h-10"
             disabled={!isRunning && targetRpm === 0}
             onClick={handleEStop}
           >
@@ -109,7 +109,7 @@ export const ControlPanel: React.FC = () => {
           </Button>
           <Button 
             variant="outline" 
-            className="w-full justify-center"
+            className="w-full justify-center h-10"
             disabled={!isFaulted}
             onClick={handleReset}
           >

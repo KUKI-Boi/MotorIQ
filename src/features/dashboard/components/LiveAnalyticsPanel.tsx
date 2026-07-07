@@ -50,11 +50,11 @@ export const LiveAnalyticsPanel: React.FC = () => {
 
   return (
     <ChartCard 
-      className="h-full flex flex-col cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300"
+      className="h-full flex flex-col cursor-pointer hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 p-4 md:p-4"
       onClick={() => navigate('/analytics')}
     >
       <Tabs defaultValue="rpm" className="w-full h-full flex flex-col">
-        <ChartHeader className="mb-4">
+        <ChartHeader className="mb-2">
           <ChartTitle className="hover:text-primary transition-colors">Live Analytics</ChartTitle>
           <TabsList onClick={(e) => e.stopPropagation()}>
             <TabsTrigger value="rpm">RPM</TabsTrigger>
