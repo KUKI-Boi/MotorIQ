@@ -82,16 +82,16 @@ CompactMetric.displayName = "CompactMetric"
 
 export const HeroMetric = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, ...props }, ref) => (
-    <div ref={ref} className={cn("p-5 md:p-6 lg:p-8 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden", className)} {...props}>
+    <div ref={ref} className={cn("p-5 md:p-6 lg:p-8 rounded-3xl bg-primary text-white shadow-xl relative overflow-hidden flex flex-col justify-center", className)} {...props}>
       <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
       <div className="relative z-10">
-        <div className="flex items-center gap-3 mb-4">
-          {Icon && <Icon className="w-8 h-8 opacity-80" />}
-          <h4 className="text-lg font-medium opacity-90">{title}</h4>
+        <div className="flex items-center gap-3 mb-6">
+          {Icon && <Icon className="w-10 h-10 opacity-80" />}
+          <h4 className="text-xl md:text-2xl font-medium opacity-90 uppercase tracking-widest">{title}</h4>
         </div>
-        <div className="flex items-baseline gap-3">
-          <span className="text-5xl md:text-6xl lg:text-7xl font-sora font-bold tracking-tighter">{value}</span>
-          {unit && <span className="text-lg md:text-xl lg:text-2xl font-medium opacity-80">{unit}</span>}
+        <div className="flex items-baseline gap-4">
+          <span className="text-7xl md:text-[7rem] lg:text-[9rem] font-sora font-bold tracking-tighter leading-none">{value}</span>
+          {unit && <span className="text-2xl md:text-3xl lg:text-4xl font-medium opacity-80">{unit}</span>}
         </div>
       </div>
     </div>
