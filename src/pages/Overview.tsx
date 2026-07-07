@@ -9,11 +9,11 @@ import { EventTimelineWidget } from '../features/dashboard/components/EventTimel
 
 export default function Overview() {
   return (
-    <div className="flex-1 min-h-0 w-full flex flex-col gap-3 p-3 md:p-4 overflow-hidden">
-      {/* flex-1 fills the height from AppShell. overflow-hidden prevents any bleed. */}
+    <div className="flex-1 min-h-0 w-full flex flex-col gap-3 p-3 md:p-4 overflow-y-auto xl:overflow-hidden">
+      {/* flex-1 fills the height from AppShell. overflow-y-auto allows mobile scrolling. xl:overflow-hidden prevents any bleed on desktop. */}
 
       {/* ── ROW 1: Current Speed hero + System Health ──────────────────── */}
-      <div className="flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-12 gap-3">
+      <div className="flex-none xl:flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-12 gap-3">
         <div className="xl:col-span-8 min-h-0 flex flex-col">
           <HeroPanel />
         </div>
@@ -28,7 +28,7 @@ export default function Overview() {
       </div>
 
       {/* ── ROW 3: Events · Analytics · Drive Control ──────────────────── */}
-      <div className="flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-12 gap-3">
+      <div className="flex-none xl:flex-1 min-h-0 grid grid-cols-1 xl:grid-cols-12 gap-3">
         <div className="xl:col-span-3 min-h-0 flex flex-col">
           <EventTimelineWidget />
         </div>
