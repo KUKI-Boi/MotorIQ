@@ -34,21 +34,21 @@ export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, title, value, unit, icon: Icon, trend, ...props }, ref) => (
-    <div ref={ref} className={cn("p-4 md:p-5 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-between group", className)} {...props}>
-      <div className="flex justify-between items-start mb-2.5">
-        <h4 className="text-sm font-semibold text-text-secondary tracking-wide uppercase">{title}</h4>
+    <div ref={ref} className={cn("p-3 xl:p-4 rounded-2xl bg-card border border-navigation/60 shadow-sm flex flex-col justify-center gap-2 group overflow-hidden", className)} {...props}>
+      <div className="flex justify-between items-center">
+        <h4 className="text-xs xl:text-sm font-semibold text-text-secondary tracking-wide uppercase">{title}</h4>
         {Icon && (
-          <div className="p-2 bg-navigation/30 rounded-lg group-hover:bg-primary/10 transition-colors">
-            <Icon className="w-5 h-5 text-text-primary group-hover:text-primary transition-colors" />
+          <div className="p-1.5 bg-navigation/30 rounded-lg group-hover:bg-primary/10 transition-colors hidden sm:block">
+            <Icon className="w-4 h-4 text-text-primary group-hover:text-primary transition-colors" />
           </div>
         )}
       </div>
-      <div className="flex items-baseline gap-2">
-        <span className="text-3xl md:text-4xl font-sora font-bold tracking-tight text-text-primary">{value}</span>
-        {unit && <span className="text-lg font-medium text-text-secondary">{unit}</span>}
+      <div className="flex items-baseline gap-1.5 xl:gap-2">
+        <span className="text-3xl xl:text-4xl font-sora font-bold tracking-tight text-text-primary leading-none">{value}</span>
+        {unit && <span className="text-sm xl:text-base font-medium text-text-secondary leading-none">{unit}</span>}
       </div>
       {trend && (
-        <div className="mt-4">
+        <div className="mt-1">
           <TrendIndicator {...trend} />
         </div>
       )}
