@@ -5,9 +5,54 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: #F6F0E5;
+    --surface: #FFFDFC;
+    --card: #FFFDFC;
+    --border: #EAE1D3;
+    --navigation: #EAE1D3;
+    --text-primary: #26140A;
+    --text-secondary: #6F5A4A;
+    --primary: #EE6C44;
+    --secondary: #6F5A4A;
+    --accent: #EE6C44;
+    --success: #2E7D32;
+    --warning: #E8A317;
+    --danger: #D32F2F;
+    --info: #3A7BD5;
+    --muted: #A89F95;
+    --disabled: #D4CFC7;
+    --hover: rgba(38, 20, 10, 0.05);
+    --focus: #EE6C44;
+    --selected: rgba(238, 108, 68, 0.1);
+    --overlay: rgba(38, 20, 10, 0.4);
+  }
+
+  html.dark {
+    --background: #120B07;
+    --surface: #1E120C;
+    --card: #1E120C;
+    --border: #2D1A10;
+    --navigation: #2D1A10;
+    --text-primary: #F7EFEA;
+    --text-secondary: #BAA595;
+    --primary: #FF7D54;
+    --secondary: #BAA595;
+    --accent: #FF7D54;
+    --success: #4CAF50;
+    --warning: #FFB300;
+    --danger: #F44336;
+    --info: #4FC3F7;
+    --muted: #6E5748;
+    --disabled: #3A261B;
+    --hover: rgba(247, 239, 234, 0.05);
+    --focus: #FF7D54;
+    --selected: rgba(255, 125, 84, 0.15);
+    --overlay: rgba(0, 0, 0, 0.6);
+  }
+
   body {
-    @apply bg-background text-text-primary font-inter antialiased;
-    /* Optional: custom scrollbar styling could go here for industrial look */
+    @apply bg-background text-text-primary font-inter antialiased transition-colors duration-normal;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PageContainer } from '../components/PageContainer';
 import { useMotorStore } from '../store/useMotorStore';
+import { useSettingsStore } from '../store/useSettingsStore';
 import { TelemetryManager } from '../services/TelemetryManager';
 import { Card } from '../components/ui/layout';
 import { 
@@ -18,6 +19,8 @@ export default function Controls() {
   const current = useMotorStore(state => state.current);
   const temperature = useMotorStore(state => state.temperature);
   const power = useMotorStore(state => state.power);
+  const limits = useSettingsStore(state => state.limits);
+  const maxRpm = limits.maxRpm;
 
   const [sliderValue, setSliderValue] = useState(targetRpm);
   const [isEStopActive, setIsEStopActive] = useState(false);
@@ -51,7 +54,7 @@ export default function Controls() {
   };
 
   const handleRpmInput = (val: number) => {
-    const clamped = Math.max(0, Math.min(3000, val));
+    const clamped = Math.max(0, Math.min(maxRpm, val));
     setSliderValue(clamped);
     TelemetryManager.setTargetRpm(clamped);
   };
@@ -124,7 +127,7 @@ export default function Controls() {
                   value={sliderValue}
                   onChange={(e) => handleRpmInput(Number(e.target.value))}
                   min={0}
-                  max={3000}
+                  max={maxRpm}
                   className="w-24 px-3 py-2 rounded-lg border border-navigation/60 bg-background text-text-primary text-right font-monospace text-sm outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
                 />
                 <span className="text-sm font-medium text-text-secondary">RPM</span>
@@ -136,7 +139,7 @@ export default function Controls() {
               <input
                 type="range"
                 min={0}
-                max={3000}
+                max={maxRpm}
                 step={50}
                 value={sliderValue}
                 onChange={handleSliderChange}
@@ -153,15 +156,15 @@ export default function Controls() {
             {/* Speed markers */}
             <div className="flex justify-between text-xs text-text-secondary font-monospace px-1">
               <span>0</span>
-              <span>750</span>
-              <span>1500</span>
-              <span>2250</span>
-              <span>3000</span>
+              <span>{Math.round(maxRpm * 0.25)}</span>
+              <span>{Math.round(maxRpm * 0.5)}</span>
+              <span>{Math.round(maxRpm * 0.75)}</span>
+              <span>{maxRpm}</span>
             </div>
 
             {/* Preset Buttons */}
             <div className="grid grid-cols-5 gap-2 mt-5">
-              {[0, 500, 1000, 1500, 2500].map((preset) => (
+              {[0, Math.round(maxRpm * 0.2), Math.round(maxRpm * 0.4), Math.round(maxRpm * 0.6), maxRpm].map((preset) => (
                 <button
                   key={preset}
                   onClick={() => handleRpmInput(preset)}
@@ -218,7 +221,7 @@ export default function Controls() {
               label="Temperature" 
               value={temperature.toFixed(1)} 
               unit="°C" 
-              warn={temperature > 70}
+              warn={temperature >= limits.maxTemperature - 15}
             />
           </Card>
 

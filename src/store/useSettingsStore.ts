@@ -17,10 +17,15 @@ export interface MotorLimits {
 interface SettingsStore {
   pid: PidSettings;
   limits: MotorLimits;
+  theme: 'light' | 'dark';
+  restUrl: string;
+  wsUrl: string;
   
   // Actions
   updatePid: (pid: Partial<PidSettings>) => void;
   updateLimits: (limits: Partial<MotorLimits>) => void;
+  setTheme: (theme: 'light' | 'dark') => void;
+  updateUrls: (urls: { restUrl?: string; wsUrl?: string }) => void;
   resetToDefaults: () => void;
 }
 
@@ -42,6 +47,9 @@ export const useSettingsStore = create<SettingsStore>()(
     (set) => ({
       pid: defaultPid,
       limits: defaultLimits,
+      theme: 'dark',
+      restUrl: 'http://192.168.4.1',
+      wsUrl: 'ws://192.168.4.1/ws',
       
       updatePid: (pidParams) => set((state) => ({ 
         pid: { ...state.pid, ...pidParams } 
@@ -50,11 +58,32 @@ export const useSettingsStore = create<SettingsStore>()(
       updateLimits: (limitParams) => set((state) => ({
         limits: { ...state.limits, ...limitParams }
       })),
+
+      setTheme: (theme) => {
+        set({ theme });
+        // Update document element class list to apply dark style
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      },
+
+      updateUrls: (urls) => set((state) => ({
+        restUrl: urls.restUrl ?? state.restUrl,
+        wsUrl: urls.wsUrl ?? state.wsUrl
+      })),
       
-      resetToDefaults: () => set({
-        pid: defaultPid,
-        limits: defaultLimits
-      })
+      resetToDefaults: () => {
+        set({
+          pid: defaultPid,
+          limits: defaultLimits,
+          theme: 'dark',
+          restUrl: 'http://192.168.4.1',
+          wsUrl: 'ws://192.168.4.1/ws'
+        });
+        document.documentElement.classList.add('dark');
+      }
     }),
     {
       name: 'motoriq-settings-store', // key in localStorage

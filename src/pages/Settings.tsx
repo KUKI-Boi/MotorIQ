@@ -1,20 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageContainer } from '@/components/PageContainer';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/layout';
 import { Save, Moon, Sun, Monitor, Wifi, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button/Button';
 import { useSettingsStore } from '@/store/useSettingsStore';
+import { hardwareConfig } from '@/config/hardware';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
   const settings = useSettingsStore();
-  const [theme, setTheme] = useState('dark');
-  const [restUrl, setRestUrl] = useState('http://192.168.4.1');
-  const [wsUrl, setWsUrl] = useState('ws://192.168.4.1/ws');
+  const [restUrl, setRestUrl] = useState(settings.restUrl);
+  const [wsUrl, setWsUrl] = useState(settings.wsUrl);
+
+  useEffect(() => {
+    setRestUrl(settings.restUrl);
+    setWsUrl(settings.wsUrl);
+  }, [settings.restUrl, settings.wsUrl]);
 
   const handleSave = () => {
-    // In a real app we'd save these to the store
+    settings.updateUrls({ restUrl, wsUrl });
+    hardwareConfig.restBaseUrl = restUrl;
+    hardwareConfig.wsBaseUrl = wsUrl;
     toast.success('Settings saved successfully');
+  };
+
+  const handleThemeChange = (newTheme: 'light' | 'dark') => {
+    settings.setTheme(newTheme);
   };
 
   return (
@@ -41,14 +52,14 @@ export default function Settings() {
               </div>
               <div className="flex bg-navigation rounded-lg p-1">
                 <button 
-                  onClick={() => setTheme('light')}
-                  className={`p-2 rounded-md transition-colors ${theme === 'light' ? 'bg-primary text-black' : 'text-text-secondary hover:text-text-primary'}`}
+                  onClick={() => handleThemeChange('light')}
+                  className={`p-2 rounded-md transition-colors ${settings.theme === 'light' ? 'bg-primary text-black' : 'text-text-secondary hover:text-text-primary'}`}
                 >
                   <Sun className="w-4 h-4" />
                 </button>
                 <button 
-                  onClick={() => setTheme('dark')}
-                  className={`p-2 rounded-md transition-colors ${theme === 'dark' ? 'bg-primary text-black' : 'text-text-secondary hover:text-text-primary'}`}
+                  onClick={() => handleThemeChange('dark')}
+                  className={`p-2 rounded-md transition-colors ${settings.theme === 'dark' ? 'bg-primary text-black' : 'text-text-secondary hover:text-text-primary'}`}
                 >
                   <Moon className="w-4 h-4" />
                 </button>
