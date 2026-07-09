@@ -48,4 +48,9 @@ export interface IMotorDriver {
    * Fetches static/slow-changing device info.
    */
   getDeviceInfo(): Promise<any>;
+
+  /**
+   * Saves hardware calibration settings.
+   */
+  saveCalibration(cal: import('../store/useSettingsStore').CalibrationSettings): Promise<void>;
 }

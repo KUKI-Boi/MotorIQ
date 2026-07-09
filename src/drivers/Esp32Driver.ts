@@ -140,4 +140,10 @@ export class Esp32Driver implements IMotorDriver {
       throw error;
     }
   }
+
+  async saveCalibration(cal: import('../store/useSettingsStore').CalibrationSettings): Promise<void> {
+    if (!this.connected) throw new Error('Not connected');
+    // Using the REST API to send calibration
+    await this.sendCommand('motor/calibration' as any, cal);
+  }
 }

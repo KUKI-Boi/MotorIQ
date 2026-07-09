@@ -11,22 +11,22 @@ const AnalyticsChart = React.memo(({ data, dataKey, stroke, yAxisDomain }: { dat
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
         <XAxis 
           dataKey="time" 
           tickFormatter={(time) => new Date(time).toLocaleTimeString([], { second: '2-digit', minute: '2-digit' })} 
-          stroke="rgba(255,255,255,0.3)" 
+          stroke="var(--text-secondary)" 
           fontSize={12}
           tickMargin={10}
         />
         <YAxis 
-          stroke="rgba(255,255,255,0.3)" 
+          stroke="var(--text-secondary)" 
           fontSize={12} 
           domain={yAxisDomain || ['auto', 'auto']}
           tickFormatter={(val) => Math.round(val).toString()}
         />
         <RechartsTooltip 
-          contentStyle={{ backgroundColor: '#1A110D', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+          contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text-primary)' }}
           labelFormatter={(time) => new Date(time as number).toLocaleTimeString()}
           itemStyle={{ color: stroke }}
           animationDuration={100}

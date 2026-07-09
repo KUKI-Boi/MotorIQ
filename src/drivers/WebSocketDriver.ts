@@ -166,4 +166,13 @@ export class WebSocketDriver implements IMotorDriver {
     }
     return this.latestDevice || { firmwareVersion: 'ws-1.0', uptime: 0 };
   }
+
+  async saveCalibration(cal: import('../store/useSettingsStore').CalibrationSettings): Promise<void> {
+    if (!this.isConnected) throw new Error('Not connected');
+    this.send({
+      topic: 'cmd/motor/calibration',
+      payload: cal,
+      timestamp: Date.now()
+    });
+  }
 }

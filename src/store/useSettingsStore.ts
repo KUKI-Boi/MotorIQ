@@ -14,9 +14,18 @@ export interface MotorLimits {
   maxTemperature: number;
 }
 
+export interface CalibrationSettings {
+  rpmOffset: number;
+  voltageScale: number;
+  tempOffset: number;
+  currentOffset: number;
+  lastCalibrated: string;
+}
+
 interface SettingsStore {
   pid: PidSettings;
   limits: MotorLimits;
+  calibration: CalibrationSettings;
   theme: 'light' | 'dark';
   restUrl: string;
   wsUrl: string;
@@ -24,6 +33,7 @@ interface SettingsStore {
   // Actions
   updatePid: (pid: Partial<PidSettings>) => void;
   updateLimits: (limits: Partial<MotorLimits>) => void;
+  updateCalibration: (calibration: Partial<CalibrationSettings>) => void;
   setTheme: (theme: 'light' | 'dark') => void;
   updateUrls: (urls: { restUrl?: string; wsUrl?: string }) => void;
   resetToDefaults: () => void;
@@ -42,11 +52,20 @@ const defaultLimits: MotorLimits = {
   maxTemperature: 85.0
 };
 
+const defaultCalibration: CalibrationSettings = {
+  rpmOffset: 0,
+  voltageScale: 1.000,
+  tempOffset: -1.5,
+  currentOffset: 0.02,
+  lastCalibrated: 'Factory Default (2026-01-15)'
+};
+
 export const useSettingsStore = create<SettingsStore>()(
   persist(
     (set) => ({
       pid: defaultPid,
       limits: defaultLimits,
+      calibration: defaultCalibration,
       theme: 'dark',
       restUrl: 'http://192.168.4.1',
       wsUrl: 'ws://192.168.4.1/ws',
@@ -57,6 +76,10 @@ export const useSettingsStore = create<SettingsStore>()(
       
       updateLimits: (limitParams) => set((state) => ({
         limits: { ...state.limits, ...limitParams }
+      })),
+
+      updateCalibration: (calParams) => set((state) => ({
+        calibration: { ...state.calibration, ...calParams }
       })),
 
       setTheme: (theme) => {
@@ -78,6 +101,7 @@ export const useSettingsStore = create<SettingsStore>()(
         set({
           pid: defaultPid,
           limits: defaultLimits,
+          calibration: defaultCalibration,
           theme: 'dark',
           restUrl: 'http://192.168.4.1',
           wsUrl: 'ws://192.168.4.1/ws'

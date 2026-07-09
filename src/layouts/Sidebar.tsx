@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, Activity, Sliders, ScrollText, Settings as SettingsIcon, 
-  Wrench, Cpu, Network, PenTool, Lock, ShieldCheck, X
+  Wrench, Cpu, Network, PenTool, Lock, ShieldCheck, X, Box
 } from 'lucide-react';
 import { AppLogo } from '@/components/AppLogo';
 import { cn } from '@/lib/utils';

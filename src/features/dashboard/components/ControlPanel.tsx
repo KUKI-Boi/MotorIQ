@@ -24,7 +24,7 @@ export const ControlPanel: React.FC = () => {
   };
 
   const handleEStop = () => {
-    TelemetryManager.setTargetRpm(0);
+    TelemetryManager.emergencyStop();
     // Log E-stop as a critical event
     useLogStore.getState().triggerFault({
       code: 'ERR_ESTOP',

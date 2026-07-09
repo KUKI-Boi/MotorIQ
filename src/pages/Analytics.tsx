@@ -24,11 +24,11 @@ const AdvancedChart = React.memo(({ data, dataKey, stroke, fill, yAxisDomain, ti
                 <stop offset="95%" stopColor={stroke} stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-            <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toLocaleTimeString([], { second: '2-digit', minute: '2-digit' })} stroke="rgba(255,255,255,0.3)" fontSize={11} tickMargin={8} />
-            <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} domain={yAxisDomain || ['auto', 'auto']} tickFormatter={(val) => Math.round(val).toString()} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toLocaleTimeString([], { second: '2-digit', minute: '2-digit' })} stroke="var(--text-secondary)" fontSize={11} tickMargin={8} />
+            <YAxis stroke="var(--text-secondary)" fontSize={11} domain={yAxisDomain || ['auto', 'auto']} tickFormatter={(val) => Math.round(val).toString()} />
             <RechartsTooltip 
-              contentStyle={{ backgroundColor: '#1A110D', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text-primary)' }}
               labelFormatter={(time) => new Date(time as number).toLocaleTimeString()}
               itemStyle={{ color: stroke }}
               animationDuration={100}
@@ -37,11 +37,11 @@ const AdvancedChart = React.memo(({ data, dataKey, stroke, fill, yAxisDomain, ti
           </AreaChart>
         ) : (
           <LineChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-            <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toLocaleTimeString([], { second: '2-digit', minute: '2-digit' })} stroke="rgba(255,255,255,0.3)" fontSize={11} tickMargin={8} />
-            <YAxis stroke="rgba(255,255,255,0.3)" fontSize={11} domain={yAxisDomain || ['auto', 'auto']} tickFormatter={(val) => Math.round(val).toString()} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+            <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toLocaleTimeString([], { second: '2-digit', minute: '2-digit' })} stroke="var(--text-secondary)" fontSize={11} tickMargin={8} />
+            <YAxis stroke="var(--text-secondary)" fontSize={11} domain={yAxisDomain || ['auto', 'auto']} tickFormatter={(val) => Math.round(val).toString()} />
             <RechartsTooltip 
-              contentStyle={{ backgroundColor: '#1A110D', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+              contentStyle={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '8px', color: 'var(--text-primary)' }}
               labelFormatter={(time) => new Date(time as number).toLocaleTimeString()}
               itemStyle={{ color: stroke }}
               animationDuration={100}

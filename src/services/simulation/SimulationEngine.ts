@@ -31,6 +31,11 @@ export class SimulationEngine {
     }
   }
 
+  static emergencyStop() {
+    this.currentRpm = 0;
+    console.log('[SimulationEngine] Emergency Stop Triggered - RPM forced to 0');
+  }
+
   private static tick() {
     const motorState = useMotorStore.getState();
     const limits = useSettingsStore.getState().limits;

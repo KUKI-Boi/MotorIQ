@@ -46,6 +46,7 @@ export class MockDriver implements IMotorDriver {
   async emergencyStop(): Promise<void> {
     if (!this.connected) throw new Error('Not connected');
     useMotorStore.getState().setTargetRpm(0);
+    SimulationEngine.emergencyStop();
     EventEngine.motorStopped();
   }
 
@@ -87,5 +88,10 @@ export class MockDriver implements IMotorDriver {
       ipAddress: '127.0.0.1',
       macAddress: '00:00:00:00:00:00',
     };
+  }
+
+  async saveCalibration(cal: import('../store/useSettingsStore').CalibrationSettings): Promise<void> {
+    if (!this.connected) throw new Error('Not connected');
+    console.log('[MockDriver] Calibration saved to mock memory:', cal);
   }
 }

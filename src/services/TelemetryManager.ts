@@ -95,6 +95,13 @@ export class TelemetryManager {
   }
 
   /**
+   * Save Calibration
+   */
+  static async saveCalibration(cal: import('../store/useSettingsStore').CalibrationSettings): Promise<void> {
+    if (this.driver) await this.driver.saveCalibration(cal);
+  }
+
+  /**
    * Dynamically switch to a different driver (legacy UI method mapping).
    */
   static async switchTransport(type: string, _url?: string): Promise<void> {
